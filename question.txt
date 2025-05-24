@@ -1,0 +1,10 @@
+Apa ibu kota Indonesia?|a.Surabaya,b.IKN,c.Jakarta|c
+Siapa penemu bola lampu?|a.Thomas Edison,b.Albert Einstein,c.Isaac Newton|a
+Berapa jumlah warna dalam bendera Indonesia?|a.1,b.2,c.3|b
+Planet keempat dari Matahari adalah?|a.Bumi,b.Mars,c.Yupiter|b
+Bahasa pemrograman yang digunakan untuk pengembangan Android adalah?|a.Java,b.Python,c.PHP|a
+Siapa presiden pertama Indonesia?|a.Soeharto,b.Megawati,c.Soekarno|c
+Apa nama alat untuk mengukur suhu?|a.Thermometer,b.Barometer,c.Altimeter|a
+Negara dengan populasi terbanyak di dunia?|a.India,b.China,c.USA|b
+Ibukota dari Provinsi Jawa Barat adalah?|a.Solo,b.Bandung,c.Cirebon|b
+Apa lambang kimia dari air?|a.CO2,b.O2,c.H2O|c
