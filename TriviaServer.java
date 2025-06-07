@@ -36,6 +36,7 @@ public class TriviaServer {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        
     }
 
     private static void loadQuestions(String fileName) {
