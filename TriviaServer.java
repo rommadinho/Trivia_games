@@ -52,6 +52,31 @@ public class TriviaServer {
         }
     }
 
+    public void run() {
+            try {
+                send("Masukkan username:");
+                name = in.readLine();
+                log("[JOIN] " + name + " bergabung.");
+
+                while (true) {
+                    String input = in.readLine();
+                    if (input == null)
+                        break;
+                    if (input.equalsIgnoreCase("a") || input.equalsIgnoreCase("b") || input.equalsIgnoreCase("c")) {
+                        currentAnswer = input;
+                        log("[JAWABAN] " + name + ": " + input);
+                    }
+                }
+            } catch (IOException e) {
+                log("❌ Client terputus: " + name);
+            }
+        }
+
+        public void send(String message) {
+            out.println(message);
+        }
+    }
+
     private static void startGame() {
         System.out.println("Game dimulai dengan " + clients.size() + " pemain.");
         for (String[] q : questions) {
