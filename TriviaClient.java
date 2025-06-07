@@ -97,6 +97,8 @@ public class TriviaClient extends JFrame {
                             showQuestion(line.substring(9)); // remove "QUESTION:"
                         } else if (line.startsWith("RESULT")) {
                             showResult(line.substring(7));
+                        } else if (line.startsWith("SCORE:")) {
+                            scoreLabel.setText("Skor: " + line.substring(6));
                         } else if (line.startsWith("END")) {
                             showFinalScore(line.substring(4));
                             setAnswerButtonsEnabled(false);
@@ -117,6 +119,12 @@ public class TriviaClient extends JFrame {
         setAnswerButtonsEnabled(true);
         startTimer();
     }
+     private void sendAnswer(String answer) {
+        out.println(answer);
+        setAnswerButtonsEnabled(false);
+        stopTimer();
+        statusLabel.setText("Jawaban dikirim: " + answer.toUpperCase());
+    }
 
     private void sendAnswer(String answer) {
         out.println(answer);
@@ -130,8 +138,23 @@ public class TriviaClient extends JFrame {
     }
 
     private void showFinalScore(String score) {
-        JOptionPane.showMessageDialog(this, "Game Selesai!\n" + score, "Hasil Akhir", JOptionPane.INFORMATION_MESSAGE);
+    String username = nameField.getText();
+
+    String message = "Game Selesai!\n" + score;
+
+    // Tambahkan ucapan khusus jika user menang
+    if (score.contains(username)) {
+        if (score.contains("🥇")) {
+            message += "\n\n🎉 SELAMAT! Kamu Juara 1!";
+        } else if (score.contains("🥈")) {
+            message += "\n\n👏 Hebat! Kamu Juara 2!";
+        } else if (score.contains("🥉")) {
+            message += "\n\n👍 Bagus! Kamu Juara 3!";
+        }
     }
+
+    JOptionPane.showMessageDialog(this, message, "Hasil Akhir", JOptionPane.INFORMATION_MESSAGE);
+}
 
     private void setAnswerButtonsEnabled(boolean enabled) {
         aBtn.setEnabled(enabled);
