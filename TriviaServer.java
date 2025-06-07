@@ -36,6 +36,37 @@ public class TriviaServer {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+         for (ClientHandler c : clients) {
+                    if (q.correctAnswer.equalsIgnoreCase(c.currentAnswer)) {
+                        c.score += 10;
+                        c.send("✅ Jawaban Anda BENAR! Skor: " + c.score);
+                    } else {
+                        c.send("❌ Jawaban SALAH! Skor: " + c.score);
+                    }
+                }
+
+                broadcast("\n📊 Klasemen Sementara:");
+                for (ClientHandler c : clients) {
+                    broadcast("👤 " + c.name + ": " + c.score + " poin");
+                }
+
+                broadcastLeaderboard();
+            }
+
+            broadcast("\n📢 Permainan selesai! Berikut skor akhir:");
+            for (ClientHandler c : clients) {
+                broadcast("👤 " + c.name + ": " + c.score + " poin");
+            }
+
+            announceWinners();
+
+            for (ClientHandler c : clients) {
+                c.send("END:Terima kasih telah bermain!");
+            }
+
+        } catch (IOException | InterruptedException e) {
+            log("❌ Error: " + e.getMessage());
+        }
         
     }
 
