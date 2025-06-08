@@ -20,7 +20,7 @@ public class TriviaClient extends JFrame {
     private int timeLeft = 20;
 
     public TriviaClient() {
-        setTitle("Trivia Client - Anjay Edition");
+        setTitle("Trivia Client - UAS Edition");
         setSize(500, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -34,7 +34,7 @@ public class TriviaClient extends JFrame {
         portField = new JTextField("1234", 5);
         topPanel.add(portField);
         topPanel.add(new JLabel("Username:"));
-        nameField = new JTextField("anjay", 8);
+        nameField = new JTextField("Rommadinhos", 8);
         topPanel.add(nameField);
         connectBtn = new JButton("Connect");
         topPanel.add(connectBtn);
@@ -114,18 +114,26 @@ public class TriviaClient extends JFrame {
         }
     }
 
+   /// Menampilkan soal dari server
     private void showQuestion(String data) {
-        questionArea.setText(data);
+        String[] parts = data.split("\\|");
+        if (parts.length >= 4) {
+            StringBuilder formatted = new StringBuilder();
+            formatted.append(parts[0].trim()).append("\n\n");
+            formatted.append("a. ").append(parts[1].replaceFirst("a\\.\\s*", "").trim()).append("\n");
+            formatted.append("b. ").append(parts[2].replaceFirst("b\\.\\s*", "").trim()).append("\n");
+            formatted.append("c. ").append(parts[3].replaceFirst("c\\.\\s*", "").trim());
+
+            questionArea.setText(formatted.toString());
+        } else {
+            questionArea.setText(data);
+        }
+
         setAnswerButtonsEnabled(true);
         startTimer();
     }
-     private void sendAnswer(String answer) {
-        out.println(answer);
-        setAnswerButtonsEnabled(false);
-        stopTimer();
-        statusLabel.setText("Jawaban dikirim: " + answer.toUpperCase());
-    }
 
+    /// Kirim jawaban ke server
     private void sendAnswer(String answer) {
         out.println(answer);
         setAnswerButtonsEnabled(false);
@@ -133,28 +141,36 @@ public class TriviaClient extends JFrame {
         statusLabel.setText("Jawaban dikirim: " + answer.toUpperCase());
     }
 
+    /// Menampilkan hasil jawaban (benar/salah)
     private void showResult(String result) {
         statusLabel.setText("Hasil: " + result);
+        resultLabel.setText(result);
+        resultLabel.setVisible(true);
+
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                SwingUtilities.invokeLater(() -> resultLabel.setVisible(false));
+            }
+        }, 2000);
     }
 
+    /// Menampilkan skor akhir dan peringkat
     private void showFinalScore(String score) {
-    String username = nameField.getText();
+        String username = nameField.getText();
+        String message = "Game Selesai!\n" + score;
 
-    String message = "Game Selesai!\n" + score;
-
-    // Tambahkan ucapan khusus jika user menang
-    if (score.contains(username)) {
-        if (score.contains("🥇")) {
-            message += "\n\n🎉 SELAMAT! Kamu Juara 1!";
-        } else if (score.contains("🥈")) {
-            message += "\n\n👏 Hebat! Kamu Juara 2!";
-        } else if (score.contains("🥉")) {
-            message += "\n\n👍 Bagus! Kamu Juara 3!";
+        if (score.contains(username)) {
+            if (score.contains("🥇")) {
+                message += "\n\n🎉 SELAMAT! Kamu Juara 1!";
+            } else if (score.contains("🥈")) {
+                message += "\n\n👏 Hebat! Kamu Juara 2!";
+            } else if (score.contains("🥉")) {
+                message += "\n\n👍 Bagus! Kamu Juara 3!";
+            }
         }
-    }
 
-    JOptionPane.showMessageDialog(this, message, "Hasil Akhir", JOptionPane.INFORMATION_MESSAGE);
-}
+        JOptionPane.showMessageDialog(this, message, "Hasil Akhir", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     private void setAnswerButtonsEnabled(boolean enabled) {
         aBtn.setEnabled(enabled);
