@@ -100,4 +100,22 @@ private void startServer() {
         }
     }
 
+    private void loadQuestions() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("question.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty())
+                    continue;
+                String q = line;
+                String a = reader.readLine();
+                String b = reader.readLine();
+                String c = reader.readLine();
+                String answer = reader.readLine();
+                questions.add(new Question(q, a, b, c, answer.trim()));
+            }
+            log("✅ Soal berhasil dimuat: " + questions.size());
+        } catch (IOException e) {
+            log("❌ Gagal membaca soal: " + e.getMessage());
+        }
+    }
 }
