@@ -212,6 +212,27 @@ public class TriviaServer {
             out.println(message);
         }
     }
+
+    static class Question {
+        String question, a, b, c, correctAnswer;
+
+        public Question(String question, String a, String b, String c, String correctAnswer) {
+            this.question = question;
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.correctAnswer = correctAnswer;
+        }
+
+        @Override
+        public String toString() {
+            return question + " | a. " + a + " | b. " + b + " | c. " + c;
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(TriviaServerGUI::new);
+    }
 }
 
 
