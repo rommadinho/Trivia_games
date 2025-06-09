@@ -1,10 +1,59 @@
-Apa ibu kota Indonesia?|a.Surabaya,b.IKN,c.Jakarta|c
-Siapa penemu bola lampu?|a.Thomas Edison,b.Albert Einstein,c.Isaac Newton|a
-Berapa jumlah warna dalam bendera Indonesia?|a.1,b.2,c.3|b
-Planet keempat dari Matahari adalah?|a.Bumi,b.Mars,c.Yupiter|b
-Bahasa pemrograman yang digunakan untuk pengembangan Android adalah?|a.Java,b.Python,c.PHP|a
-Siapa presiden pertama Indonesia?|a.Soeharto,b.Megawati,c.Soekarno|c
-Apa nama alat untuk mengukur suhu?|a.Thermometer,b.Barometer,c.Altimeter|a
-Negara dengan populasi terbanyak di dunia?|a.India,b.China,c.USA|b
-Ibukota dari Provinsi Jawa Barat adalah?|a.Solo,b.Bandung,c.Cirebon|b
-Apa lambang kimia dari air?|a.CO2,b.O2,c.H2O|c
+01.Apa ibu kota Indonesia? 
+ Surabaya 
+ IKN 
+ Jakarta
+c
+
+02.Siapa penemu bola lampu? 
+ Thomas Edisonb
+ Albert Einstein 
+ Isaac Newton
+a
+
+03.Berapa jumlah warna dalam bendera Indonesia? 
+ 1 
+ 2 
+ 3
+b
+
+04.Planet keempat dari Matahari adalah?
+ Bumi
+ Mars
+ Yupiter
+b
+
+05.Bahasa pemrograman yang digunakan untuk pengembangan Android adalah?
+ Java
+ Python
+ PHP
+a
+
+06.Siapa presiden pertama Indonesia?
+ Soeharto
+ Megawati
+ Soekarno
+c
+
+07.Apa nama alat untuk mengukur suhu?
+ Thermometer
+ Barometer
+ Altimeter
+a
+
+08.Negara dengan populasi terbanyak di dunia?
+ India
+ China
+ USA
+b
+
+09.Ibukota dari Provinsi Jawa Barat adalah?
+ Solo
+ Bandung
+ Cirebon
+b
+
+010.Apa lambang kimia dari air?
+ CO2
+ O2
+ H2O
+c
