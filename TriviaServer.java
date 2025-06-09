@@ -136,8 +136,7 @@ private void startServer() {
         }
         broadcast(leaderboard.toString());
     }
-}
-private void announceWinners() {
+    private void announceWinners() {
      
         List<ClientHandler> sorted = new ArrayList<>(clients);
         sorted.sort(Comparator.comparingInt(c -> -c.score)); 
@@ -166,4 +165,6 @@ private void announceWinners() {
         broadcast("LEADERBOARD:" + getFinalLeaderboardString(sorted));
         broadcast(klasemen.toString()); 
     }
+}
+
 
