@@ -174,6 +174,44 @@ public class TriviaServer {
         }
         return sb.toString();
     }
+    class ClientHandler extends Thread {
+        private Socket socket;
+        private PrintWriter out;
+        private BufferedReader in;
+        public String name;
+        public int score = 0;
+        public String currentAnswer = null;
+
+        public ClientHandler(Socket socket) throws IOException {
+            this.socket = socket;
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        }
+
+        public void run() {
+            try {
+                send("Masukkan username:");
+                name = in.readLine();
+                log("[JOIN] " + name + " bergabung.");
+
+                while (true) {
+                    String input = in.readLine();
+                    if (input == null)
+                        break;
+                    if (input.equalsIgnoreCase("a") || input.equalsIgnoreCase("b") || input.equalsIgnoreCase("c")) {
+                        currentAnswer = input;
+                        log("[JAWABAN] " + name + ": " + input);
+                    }
+                }
+            } catch (IOException e) {
+                log("❌ Client terputus: " + name);
+            }
+        }
+
+        public void send(String message) {
+            out.println(message);
+        }
+    }
 }
 
 
