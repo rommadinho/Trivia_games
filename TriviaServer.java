@@ -30,7 +30,7 @@ public class TriviaServer {
         SwingUtilities.invokeLater(() -> logArea.append(message + "\n"));
         System.out.println(message);
     }
-private void startServer() {
+    private void startServer() {
         log("Server dimulai...");
         loadQuestions();
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
