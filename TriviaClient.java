@@ -177,4 +177,23 @@ public class TriviaClient extends JFrame {
             }
         }, 2000);
     }
+       private void showFinalScore(String score) {
+    String username = nameField.getText();
+
+    String message = "Game Selesai!\n" + score;
+
+    // Tambahkan ucapan khusus jika user menang
+    if (score.contains(username)) {
+        if (score.contains("🥇")) {
+            message += "\n\n🎉 SELAMAT! Kamu Juara 1!";
+        } else if (score.contains("🥈")) {
+            message += "\n\n👏 Hebat! Kamu Juara 2!";
+        } else if (score.contains("🥉")) {
+            message += "\n\n👍 Bagus! Kamu Juara 3!";
+        }
+    }
+
+    JOptionPane.showMessageDialog(this, message, "Hasil Akhir", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }
