@@ -159,4 +159,22 @@ public class TriviaClient extends JFrame {
         setAnswerButtonsEnabled(true);
         startTimer();
     }
+    private void sendAnswer(String answer) {
+        out.println(answer);
+        setAnswerButtonsEnabled(false);
+        stopTimer();
+        statusLabel.setText("Jawaban dikirim: " + answer.toUpperCase());
+    }
+
+    private void showResult(String result) {
+        statusLabel.setText("Hasil: " + result);
+        resultLabel.setText(result);
+        resultLabel.setVisible(true);
+
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                SwingUtilities.invokeLater(() -> resultLabel.setVisible(false));
+            }
+        }, 2000);
+    }
 }
