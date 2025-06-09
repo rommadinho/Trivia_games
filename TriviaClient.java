@@ -195,9 +195,6 @@ public class TriviaClient extends JFrame {
 
     JOptionPane.showMessageDialog(this, message, "Hasil Akhir", JOptionPane.INFORMATION_MESSAGE);
     }
-
-}
-
     private void showLeaderboard(String data) {
         SwingUtilities.invokeLater(() -> {
             leaderboardModel.setRowCount(0);
@@ -212,3 +209,52 @@ public class TriviaClient extends JFrame {
             }
         });
     }
+    private void setAnswerButtonsEnabled(boolean enabled) {
+        aBtn.setEnabled(enabled);
+        bBtn.setEnabled(enabled);
+        cBtn.setEnabled(enabled);
+    }
+
+    private void startTimer() {
+        timeLeft = 20;
+        timerLabel.setText("Time left: " + timeLeft);
+        if (questionTimer != null)
+            questionTimer.cancel();
+
+        questionTimer = new Timer();
+        questionTimer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                timeLeft--;
+                SwingUtilities.invokeLater(() -> timerLabel.setText("Time left: " + timeLeft));
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    SwingUtilities.invokeLater(() -> {
+                        setAnswerButtonsEnabled(false);
+                        out.println("timeout");
+                        statusLabel.setText("Waktu habis! Jawaban tidak terkirim.");
+                    });
+                }
+            }
+        }, 1000, 1000);
+    }
+
+    private void stopTimer() {
+        if (questionTimer != null) {
+            questionTimer.cancel();
+        }
+    }
+
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+        statusLabel.setText("Status: " + message);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            TriviaClient gui = new TriviaClient();
+            gui.setVisible(true);
+        });
+    }
+}
+
+    
