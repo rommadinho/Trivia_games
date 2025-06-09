@@ -118,4 +118,22 @@ private void startServer() {
             log("❌ Gagal membaca soal: " + e.getMessage());
         }
     }
+
+    private void broadcast(String message) {
+        for (ClientHandler c : clients) {
+            c.send(message);
+        }
+        log("[BROADCAST] " + message);
+    }
+
+    private void broadcastLeaderboard() {
+        StringBuilder leaderboard = new StringBuilder("LEADERBOARD:");
+        clients.stream()
+                .sorted(Comparator.comparingInt(c -> -c.score))
+                .forEach(c -> leaderboard.append(c.name).append("=").append(c.score).append(","));
+        if (leaderboard.charAt(leaderboard.length() - 1) == ',') {
+            leaderboard.setLength(leaderboard.length() - 1);
+        }
+        broadcast(leaderboard.toString());
+    }
 }
