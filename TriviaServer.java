@@ -165,6 +165,15 @@ public class TriviaServer {
         broadcast("LEADERBOARD:" + getFinalLeaderboardString(sorted));
         broadcast(klasemen.toString()); 
     }
+
+    private String getFinalLeaderboardString(List<ClientHandler> list) {
+        StringBuilder sb = new StringBuilder();
+        for (ClientHandler c : list) {
+            if (sb.length() > 0) sb.append(",");
+            sb.append(c.name).append("=").append(c.score);
+        }
+        return sb.toString();
+    }
 }
 
 
