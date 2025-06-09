@@ -97,4 +97,48 @@ public class TriviaClient extends JFrame {
         bBtn.addActionListener(e -> sendAnswer("b"));
         cBtn.addActionListener(e -> sendAnswer("c"));
     }
+    private void connectToServer() {
+        String ip = ipField.getText();
+        int port = Integer.parseInt(portField.getText());
+        String username = nameField.getText();
+
+        try {
+            socket = new Socket(ip, port);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+
+            new Thread(() -> {
+                try {
+                    String serverMessage = in.readLine();
+                    if (serverMessage != null) {
+                        statusLabel.setText(serverMessage);
+                        out.println(username);
+                    }
+
+                    String line;
+                    while ((line = in.readLine()) != null) {
+                        if (line.startsWith("SOAL:")) {
+                            showQuestion(line.substring(6));
+                        } else if (line.startsWith("RESULT:")) {
+                            showResult(line.substring(8));
+                        } else if (line.startsWith("SCORE:")) {
+                            scoreLabel.setText("Skor: " + line.substring(6));
+                        } else if (line.startsWith("END:")) {
+                            showFinalScore(line.substring(5));
+                        } else if (line.startsWith("LEADERBOARD:")) {
+                            showLeaderboard(line.substring(12));
+                        }
+                    }
+                } catch (IOException e) {
+                    showError("Terputus dari server.");
+                }
+            }).start();
+
+            connectBtn.setEnabled(false);
+            statusLabel.setText("Terhubung ke server.");
+
+        } catch (IOException ex) {
+            showError("Gagal terhubung!");
+        }
+    }
 }
