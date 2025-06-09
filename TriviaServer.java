@@ -30,4 +30,74 @@ public class TriviaServer {
         SwingUtilities.invokeLater(() -> logArea.append(message + "\n"));
         System.out.println(message);
     }
+private void startServer() {
+        log("Server dimulai...");
+        loadQuestions();
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            log("🚀 TriviaServer berjalan di port " + PORT);
+
+            while (clients.size() < MAX_PLAYERS) {
+                Socket socket = serverSocket.accept();
+                ClientHandler client = new ClientHandler(socket);
+                clients.add(client);
+                client.start();
+            }
+
+            log("Jumlah pemain lengkap, memulai game...");
+            broadcast("Game dimulai!");
+
+            for (Question q : questions) {
+                broadcast("SOAL:" + q);
+                log("[KIRIM SOAL] " + q);
+
+                for (ClientHandler c : clients)
+                    c.currentAnswer = null;
+
+                long startTime = System.currentTimeMillis();
+                while (System.currentTimeMillis() - startTime < 20000) {
+                    boolean allAnswered = true;
+                    for (ClientHandler c : clients) {
+                        if (c.currentAnswer == null) {
+                            allAnswered = false;
+                            break;
+                        }
+                    }
+                    if (allAnswered)
+                        break;
+                    Thread.sleep(200);
+                }
+
+                for (ClientHandler c : clients) {
+                    if (q.correctAnswer.equalsIgnoreCase(c.currentAnswer)) {
+                        c.score += 10;
+                        c.send("✅ Jawaban Anda BENAR! Skor: " + c.score);
+                    } else {
+                        c.send("❌ Jawaban SALAH! Skor: " + c.score);
+                    }
+                }
+
+                broadcast("\n📊 Klasemen Sementara:");
+                for (ClientHandler c : clients) {
+                    broadcast("👤 " + c.name + ": " + c.score + " poin");
+                }
+
+                broadcastLeaderboard();
+            }
+
+            broadcast("\n📢 Permainan selesai! Berikut skor akhir:");
+            for (ClientHandler c : clients) {
+                broadcast("👤 " + c.name + ": " + c.score + " poin");
+            }
+
+            announceWinners();
+
+            for (ClientHandler c : clients) {
+                c.send("END:Terima kasih telah bermain!");
+            }
+
+        } catch (IOException | InterruptedException e) {
+            log("❌ Error: " + e.getMessage());
+        }
+    }
+
 }
