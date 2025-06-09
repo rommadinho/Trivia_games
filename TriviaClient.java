@@ -197,3 +197,18 @@ public class TriviaClient extends JFrame {
     }
 
 }
+
+    private void showLeaderboard(String data) {
+        SwingUtilities.invokeLater(() -> {
+            leaderboardModel.setRowCount(0);
+            String[] entries = data.split(",");
+            for (String entry : entries) {
+                String[] pair = entry.split("=");
+                if (pair.length == 2) {
+                    String nama = pair[0].trim();
+                    String skor = pair[1].trim();
+                    leaderboardModel.addRow(new Object[]{nama, skor});
+                }
+            }
+        });
+    }
