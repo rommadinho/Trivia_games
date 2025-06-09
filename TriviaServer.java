@@ -137,3 +137,33 @@ private void startServer() {
         broadcast(leaderboard.toString());
     }
 }
+private void announceWinners() {
+     
+        List<ClientHandler> sorted = new ArrayList<>(clients);
+        sorted.sort(Comparator.comparingInt(c -> -c.score)); 
+
+        log("🏆 Skor Akhir:");
+        StringBuilder klasemen = new StringBuilder("\n🎖️ Klasemen Akhir:\n");
+
+        for (int i = 0; i < sorted.size(); i++) {
+            ClientHandler c = sorted.get(i);
+
+            String medal = switch (i) {
+                case 0 -> "🥇";
+                case 1 -> "🥈";
+                case 2 -> "🥉";
+                default -> "🎖️";
+            };
+
+            String message = medal + " Juara " + (i + 1) + ": " + c.name + " - " + c.score + " poin";
+            klasemen.append(message).append("\n");
+
+            log(message);               
+            c.send("END: " + message);  
+        }
+
+        
+        broadcast("LEADERBOARD:" + getFinalLeaderboardString(sorted));
+        broadcast(klasemen.toString()); 
+    }
+
