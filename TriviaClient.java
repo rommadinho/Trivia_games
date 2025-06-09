@@ -141,4 +141,22 @@ public class TriviaClient extends JFrame {
             showError("Gagal terhubung!");
         }
     }
+
+    private void showQuestion(String data) {
+        String[] parts = data.split("\\|");
+        if (parts.length >= 4) {
+            StringBuilder formatted = new StringBuilder();
+            formatted.append(parts[0].trim()).append("\n\n");
+            formatted.append("a. ").append(parts[1].replaceFirst("a\\.\\s*", "").trim()).append("\n");
+            formatted.append("b. ").append(parts[2].replaceFirst("b\\.\\s*", "").trim()).append("\n");
+            formatted.append("c. ").append(parts[3].replaceFirst("c\\.\\s*", "").trim());
+
+            questionArea.setText(formatted.toString());
+        } else {
+            questionArea.setText(data);
+        }
+
+        setAnswerButtonsEnabled(true);
+        startTimer();
+    }
 }
